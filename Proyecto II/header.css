@@ -1,0 +1,38 @@
+:root{
+    --primary-color: #b70808;
+    --secondary-color: black;
+   --terciary-color: rgb(217, 216, 216);
+}
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 25vh;
+    width: 98vw;
+    /*background: linear-gradient(var(--primary-color), var(--secondary-color));*/
+   background-color: var(--secondary-color);
+}
+
+h1{
+    color:var(--primary-color) ;
+    font-size: 7vw;
+}
+
+header >  img{
+width: 20%;
+height: 75%;
+object-fit: contain;
+}
+
+@media (max-width: 955px){
+    header >  img{
+        width: 25vw;
+        height: fit-content;
+        top: 0;
+        }
+        h1{
+            color:var(--primary-color) ;
+            font-size: 5vw;
+        }
+}
