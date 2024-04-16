@@ -224,9 +224,9 @@ renderProductos(productos);
 
 //!Filtro por vendedor
 
-select.addEventListener("change", function (event){ 
-   
-    const filteredSellers = [];
+let filteredSellers = [];
+ function sellerSelector (event){ 
+  filteredSellers = [];
     let dealer = event.target.value;
     for (let index = 0; index < productos.length; index++) {
         if (productos[index].seller === dealer){
@@ -235,7 +235,8 @@ select.addEventListener("change", function (event){
     }
    renderProductos(filteredSellers);
 } 
-);
+select.addEventListener("change",sellerSelector);
+
 
 //!Limpieza de filtros - creación
 
@@ -257,24 +258,36 @@ sectionFilter.append(buttonMoney);
 
 //! Filtro por precio, con mensaje de error incluido
 
-buttonMoney.addEventListener("click",function(){
+buttonMoney.addEventListener("click",function(event){
     let inputValue = inputMoney.value;
+    const combinedResults = [];
     const filteredProducts = [];
-    for (let index = 0; index < productos.length; index++) {
-        if (isNaN(inputValue) || inputValue <= 0) {
-            alert("Introduzca una cantidad válida");
-            return; 
-        }
-        else if (productos[index].price <= inputValue){
-            filteredProducts.push(productos[index]);
+    if (isNaN(inputValue) || inputValue <= 0) {
+        alert("Introduzca una cantidad válida");
+        return; 
+    }
+  else if (select.selectedIndex === 0) {
+        for (let index = 0; index < productos.length; index++) {
+            if (productos[index].price <= inputValue){
+               filteredProducts.push(productos[index]);
+           }
+       }
+       if (filteredProducts.length === 0) {
+        alert("No se encuentran artículos con ese precio");
+    }
+       return renderProductos(filteredProducts); 
+       } ;
+    if (select.selectedIndex !== 0) {
+    for (let index = 0; index < filteredSellers.length; index++) { 
+        if (filteredSellers[index].price <= inputValue){   
+            combinedResults.push(filteredSellers[index]); 
         }
     }
-    
-    renderProductos(filteredProducts);
-
-    if (filteredProducts.length === 0) {
-        alert("No se encuentran artículos con ese precio")
+    if (combinedResults.length === 0) {
+        alert("No se encuentran artículos con ese precio"); 
     }
+    return renderProductos(combinedResults); 
+     };
 } );
 
 //! Evento limpieza de filtros 2)
@@ -297,4 +310,4 @@ select.addEventListener("change", function(){
     }
 });
 
-//! Filtro combinado
+
