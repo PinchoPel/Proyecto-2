@@ -166,7 +166,7 @@ let productos = [
 const select = document.createElement("select");
 const sectionFilter = document.querySelector("#filter");
 let options = []; 
-const firstOption = document.createElement("option");
+let firstOption = document.createElement("option");
 firstOption.textContent = "Seleccione un vendedor";
 select.append(firstOption);
 productos.forEach(function(param) {
@@ -220,38 +220,34 @@ productos.forEach(function(param){
    carta.className = "carta";
    price.className = "price";
 })}
-renderProductos(productos)
+renderProductos(productos);
 
 //!Filtro por vendedor
 
 select.addEventListener("change", function (event){ 
-let dealer = event.target.value  
-
-filteredSellers = [];
-firstOption.hidden = true;
+   
+    const filteredSellers = [];
+    let dealer = event.target.value;
     for (let index = 0; index < productos.length; index++) {
         if (productos[index].seller === dealer){
             filteredSellers.push(productos[index]);
         }
     }
-    renderProductos(filteredSellers);
+   renderProductos(filteredSellers);
 } 
 );
 
-//!Limpieza de filtros  
+//!Limpieza de filtros - creación
 
 const cleanFilter = document.createElement("button");
 cleanFilter.textContent = "Limpiar filtros";
 sectionFilter.append(cleanFilter);
 
-cleanFilter.addEventListener("click", function(){
-    renderProductos(productos)
-    inputMoney = "";
-});
+
 
 //! Creación del Filtro por dinero
 
-const inputMoney = document.createElement("input");
+let inputMoney = document.createElement("input");
 const buttonMoney = document.createElement("button");
 inputMoney.placeholder ="Buscar por precio";
 inputMoney.type = "number"; 
@@ -262,18 +258,43 @@ sectionFilter.append(buttonMoney);
 //! Filtro por precio, con mensaje de error incluido
 
 buttonMoney.addEventListener("click",function(){
-    const inputValue = inputMoney.value 
+    let inputValue = inputMoney.value;
     const filteredProducts = [];
     for (let index = 0; index < productos.length; index++) {
         if (isNaN(inputValue) || inputValue <= 0) {
-          
-            alert("No se encuentran elementos con ese precio");
+            alert("Introduzca una cantidad válida");
             return; 
         }
-        if (productos[index].price < inputValue){
+        else if (productos[index].price <= inputValue){
             filteredProducts.push(productos[index]);
-            foundProduct = true;
         }
     }
+    
     renderProductos(filteredProducts);
+
+    if (filteredProducts.length === 0) {
+        alert("No se encuentran artículos con ese precio")
+    }
 } );
+
+//! Evento limpieza de filtros 2)
+
+//!Botón limpiar filtros
+
+cleanFilter.addEventListener("click", function(){
+    renderProductos(productos);
+   inputMoney.value = "";
+   if (select.selectedIndex !== 0) {
+    select.selectedIndex = 0;
+   }
+});
+
+//!Filtro primera opción
+
+select.addEventListener("change", function(){
+    if (select.selectedIndex === 0) {
+        renderProductos(productos);
+    }
+});
+
+//! Filtro combinado
