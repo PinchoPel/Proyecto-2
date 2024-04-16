@@ -1,0 +1,51 @@
+:root{
+    --primary-color: #b70808;
+    --secondary-color: black;
+    --terciary-color: rgb(217, 216, 216);
+}
+
+footer{
+    border-top: var(--terciary-color) 5px dashed;
+    height: 20vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 98vw;
+    flex-wrap: wrap;
+    padding: 3vw;
+    margin-top: 10vh;
+}
+
+a{
+    color: var(--primary-color);
+    font-weight: 600;
+    flex-basis: 125px;
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 800px){
+a{
+    min-width: 33%;
+    display: flex;
+    justify-content: center;
+}
+}
+
+@media (max-width: 490px){
+    footer{
+        height: 35vh;
+    }
+    a{
+        min-width: 45%
+    }
+}
+
+@media (max-width: 350px){
+    footer{
+        height: 55vh;
+    }
+a{
+    min-width: 70%;
+}
+}
