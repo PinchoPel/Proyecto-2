@@ -222,22 +222,6 @@ productos.forEach(function(param){
 })}
 renderProductos(productos);
 
-//!Filtro por vendedor
-
-let filteredSellers = [];
- function sellerSelector (event){ 
-  filteredSellers = [];
-    let dealer = event.target.value;
-    for (let index = 0; index < productos.length; index++) {
-        if (productos[index].seller === dealer){
-            filteredSellers.push(productos[index]);
-        }
-    }
-   renderProductos(filteredSellers);
-} 
-select.addEventListener("change",sellerSelector);
-
-
 //!Limpieza de filtros - creación
 
 const cleanFilter = document.createElement("button");
@@ -256,39 +240,73 @@ buttonMoney.textContent = "Buscar";
 sectionFilter.append(inputMoney);
 sectionFilter.append(buttonMoney);
 
+//!Variables
+
+let filteredSellers = [];
+let inputValue = inputMoney.value;
+let combinedResults = [];
+let filteredProducts = [];
+let combinedProducts = [];
+
+//!Filtro por vendedor
+
+ function sellerSelector (event){ 
+  filteredSellers = [];
+  combinedProducts =[]
+    let dealer = event.target.value;
+    if (inputMoney.value !== "") {
+        for (let index = 0; index < filteredProducts.length; index++) {
+            if (filteredProducts[index].seller === dealer) {
+                combinedProducts.push(filteredProducts[index]);
+            }
+        }
+        renderProductos(combinedProducts);
+    }
+   else if(inputMoney.value == "")
+   {for (let index = 0; index < productos.length; index++) {
+    if (productos[index].seller === dealer){
+        filteredSellers.push(productos[index]);
+    }
+}
+renderProductos(filteredSellers);}
+} 
+select.addEventListener("change",sellerSelector);
+
+
 //! Filtro por precio, con mensaje de error incluido
 
-buttonMoney.addEventListener("click",function(event){
-    let inputValue = inputMoney.value;
-    const combinedResults = [];
-    const filteredProducts = [];
+function priceSelector(){
+    inputValue = inputMoney.value;
+    combinedResults = [];
+    filteredProducts = [];
     if (isNaN(inputValue) || inputValue <= 0) {
         alert("Introduzca una cantidad válida");
         return; 
     }
   else if (select.selectedIndex === 0) {
         for (let index = 0; index < productos.length; index++) {
-            if (productos[index].price <= inputValue){
+            if (productos[index].price <= inputMoney.value){
                filteredProducts.push(productos[index]);
            }
        }
        if (filteredProducts.length === 0) {
         alert("No se encuentran artículos con ese precio");
     }
-       return renderProductos(filteredProducts); 
+        renderProductos(filteredProducts); 
        } ;
     if (select.selectedIndex !== 0) {
     for (let index = 0; index < filteredSellers.length; index++) { 
-        if (filteredSellers[index].price <= inputValue){   
+        if (filteredSellers[index].price <= inputMoney.value){   
             combinedResults.push(filteredSellers[index]); 
         }
     }
-    if (combinedResults.length === 0) {
+    if (combinedResults.length == 0) {
         alert("No se encuentran artículos con ese precio"); 
     }
-    return renderProductos(combinedResults); 
+    renderProductos(combinedResults); 
      };
-} );
+};
+ buttonMoney.addEventListener("click", priceSelector);
 
 //! Evento limpieza de filtros 2)
 
@@ -297,6 +315,10 @@ buttonMoney.addEventListener("click",function(event){
 cleanFilter.addEventListener("click", function(){
     renderProductos(productos);
    inputMoney.value = "";
+   filteredSellers = [];
+combinedResults = [];
+filteredProducts = [];
+combinedProducts = [];
    if (select.selectedIndex !== 0) {
     select.selectedIndex = 0;
    }
