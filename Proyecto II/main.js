@@ -252,24 +252,45 @@ let combinedProducts = [];
 
  function sellerSelector (event){ 
   filteredSellers = [];
-  combinedProducts =[]
+  combinedProducts =[];
     let dealer = event.target.value;
+
     if (inputMoney.value !== "") {
-        for (let index = 0; index < filteredProducts.length; index++) {
-            if (filteredProducts[index].seller === dealer) {
-                combinedProducts.push(filteredProducts[index]);
+
+        if (filteredProducts.length !== 0) {
+            for (let index = 0; index < filteredProducts.length; index++) {
+                if (filteredProducts[index].seller === dealer) {
+                    combinedProducts.push(filteredProducts[index]);
+                }
             }
         }
+        
+        else if (filteredProducts.length == 0) { // aquí está el confilcto, cuando se cambia de select, deja vacía la web
+            for (let index = 0; index < filteredSellers.length; index++) {
+                if (filteredSellers[index].seller === dealer) {
+                    combinedProducts.push(filteredSellers[index]);
+                }
+            }
+        }
+        
+        else if (combinedProducts.length == 0){
+            alert("No se encuentran artículos con ese precioffff"); 
+        }
+
         renderProductos(combinedProducts);
+
     }
+
    else if(inputMoney.value == "")
    {for (let index = 0; index < productos.length; index++) {
     if (productos[index].seller === dealer){
         filteredSellers.push(productos[index]);
     }
 }
+
 renderProductos(filteredSellers);}
 } 
+
 select.addEventListener("change",sellerSelector);
 
 
@@ -279,10 +300,12 @@ function priceSelector(){
     inputValue = inputMoney.value;
     combinedResults = [];
     filteredProducts = [];
+
     if (isNaN(inputValue) || inputValue <= 0) {
         alert("Introduzca una cantidad válida");
         return; 
     }
+
   else if (select.selectedIndex === 0) {
         for (let index = 0; index < productos.length; index++) {
             if (productos[index].price <= inputMoney.value){
@@ -290,22 +313,41 @@ function priceSelector(){
            }
        }
        if (filteredProducts.length === 0) {
-        alert("No se encuentran artículos con ese precio");
+        alert("No se encuentran artículos con ese preciodddd");
     }
+
         renderProductos(filteredProducts); 
-       } ;
-    if (select.selectedIndex !== 0) {
-    for (let index = 0; index < filteredSellers.length; index++) { 
-        if (filteredSellers[index].price <= inputMoney.value){   
-            combinedResults.push(filteredSellers[index]); 
+
+       } 
+
+   else if (select.selectedIndex !== 0) {
+
+        if (filteredSellers.length !== 0) {
+            for (let index = 0; index < filteredSellers.length; index++) { 
+                if (filteredSellers[index].price <= inputMoney.value){   
+                    combinedResults.push(filteredSellers[index]); 
+                }
+            }
         }
+
+       else if (filteredSellers.length == 0) {
+            for (let index = 0; index < combinedProducts.length; index++) {
+                if (combinedProducts[index].price <= inputMoney.value) {
+                    combinedResults.push(combinedProducts[index]); 
+                }
+            }
+        }
+
+  
+   else if (combinedResults.length == 0) {
+        alert("No se encuentran artículos con ese preciosss"); // el error sale por  aquí
     }
-    if (combinedResults.length == 0) {
-        alert("No se encuentran artículos con ese precio"); 
-    }
+
     renderProductos(combinedResults); 
+
      };
 };
+
  buttonMoney.addEventListener("click", priceSelector);
 
 //! Evento limpieza de filtros 2)

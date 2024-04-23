@@ -1,0 +1,69 @@
+movimientos que se pueden hacer
+
+
+
+1. buscar sólo por precio
+
+2. buscar solo por vendedor
+
+3. primero precio y luego vendedor
+
+4. primero vendedor y luego precio
+
+5. vendedor, precio, vendedor
+
+6. vendedor, precio, precio
+
+7. precio, vendedor, precio
+
+8. precio, precio, vendedor
+
+
+
+posibilidades 4
+
+
+
+select vacío
+
+select lleno
+
+input vacío
+
+input lleno
+
+
+
+soluciones 
+
+
+
+con input vacío y sin select o primer select     render productos
+
+con input vacío y select                                render filtProd
+
+con input lleno y sin select                            render filtSeller
+
+con input primero y select después                 combProducts
+
+con select primero e input después                 combResults
+
+
+
+ideas
+
+mover los arrays dentro de los if
+
+meter funciones dentro de los if
+
+o incluso una mezcla de ambas que llame a la función vaciando y rellenando el array en cada bucle del if
+
+podría necesitar meter varios push en cada if para ir cerrando el círculo
+
+meter el addEventListener dentro de un if
+
+input.addEventListener("click", funcion1; funcion2)
+
+dos parámetros, precio  y dealer
+
+explicación final 1 hora:45 minutos
