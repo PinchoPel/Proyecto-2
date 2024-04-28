@@ -257,28 +257,17 @@ let combinedProducts = [];
 
     if (inputMoney.value !== "") {
 
-        if (filteredProducts.length !== 0) {
-            for (let index = 0; index < filteredProducts.length; index++) {
-                if (filteredProducts[index].seller === dealer) {
-                    combinedProducts.push(filteredProducts[index]);
+            for (let index = 0; index < productos.length; index++) {
+                if (productos[index].seller === dealer && productos[index].price <= inputMoney.value) {
+                    combinedProducts.push(productos[index]);
                 }
             }
-        }
         
-        else if (filteredProducts.length == 0) { // aquí está el confilcto, cuando se cambia de select, deja vacía la web
-            for (let index = 0; index < filteredSellers.length; index++) {
-                if (filteredSellers[index].seller === dealer) {
-                    combinedProducts.push(filteredSellers[index]);
-                }
-            }
-        }
-        
-        else if (combinedProducts.length == 0){
-            alert("No se encuentran artículos con ese precioffff"); 
-        }
-
         renderProductos(combinedProducts);
 
+        if (combinedProducts.length == 0 && select.selectedIndex !== 0){
+            alert("No se encuentran artículos con ese precio"); 
+        }
     }
 
    else if(inputMoney.value == "")
@@ -297,6 +286,7 @@ select.addEventListener("change",sellerSelector);
 //! Filtro por precio, con mensaje de error incluido
 
 function priceSelector(){
+
     inputValue = inputMoney.value;
     combinedResults = [];
     filteredProducts = [];
@@ -313,7 +303,7 @@ function priceSelector(){
            }
        }
        if (filteredProducts.length === 0) {
-        alert("No se encuentran artículos con ese preciodddd");
+        alert("No se encuentran artículos con ese precio");
     }
 
         renderProductos(filteredProducts); 
@@ -322,25 +312,15 @@ function priceSelector(){
 
    else if (select.selectedIndex !== 0) {
 
-        if (filteredSellers.length !== 0) {
-            for (let index = 0; index < filteredSellers.length; index++) { 
-                if (filteredSellers[index].price <= inputMoney.value){   
-                    combinedResults.push(filteredSellers[index]); 
+        
+            for (let index = 0; index < productos.length; index++) { 
+                if (productos[index].price <= inputMoney.value && productos[index].seller === select.value){
+                    combinedResults.push(productos[index]); 
                 }
             }
-        }
-
-       else if (filteredSellers.length == 0) {
-            for (let index = 0; index < combinedProducts.length; index++) {
-                if (combinedProducts[index].price <= inputMoney.value) {
-                    combinedResults.push(combinedProducts[index]); 
-                }
-            }
-        }
-
-  
-   else if (combinedResults.length == 0) {
-        alert("No se encuentran artículos con ese preciosss"); // el error sale por  aquí
+        
+   if (combinedResults.length == 0) {
+        alert("No se encuentran artículos con ese precio"); 
     }
 
     renderProductos(combinedResults); 
